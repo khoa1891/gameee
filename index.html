@@ -373,7 +373,7 @@ this.thunderInterval = 1500;       // Thời gian mỗi đợt sấm (1,5 giây)
 
 
                 // Tạo đối tượng `CursorKeys` để kiểm tra các phím di chuyển
-this.cursors = this.input.keyboard.createCursorKeys();
+// this.cursors = this.input.keyboard.createCursorKeys();
                 // Thay đổi tốc độ với acceleration
 this.player.body.setAcceleration(100); // Thêm gia tốc
 // Cấu hình vật lý
@@ -523,24 +523,24 @@ document.getElementById(`${selectedGift}Count`).innerText = this.inventory[selec
             update() {
                 this.scoreText.setPosition(this.player.x, this.player.y - 40);
 
-                 // Di chuyển nhân vật khi nhấn các phím
-    if (this.cursors.left.isDown) {
-        this.player.body.setVelocityX(-100);
-    }
-    else if (this.cursors.right.isDown) {
-        this.player.body.setVelocityX(100);
-    } else {
-        this.player.body.setVelocityX(0); // Dừng khi không nhấn trái/phải
-    }
+    //              // Di chuyển nhân vật khi nhấn các phím
+    // if (this.cursors.left.isDown) {
+    //     this.player.body.setVelocityX(-100);
+    // }
+    // else if (this.cursors.right.isDown) {
+    //     this.player.body.setVelocityX(100);
+    // } else {
+    //     this.player.body.setVelocityX(0); // Dừng khi không nhấn trái/phải
+    // }
 
-    if (this.cursors.up.isDown) {
-        this.player.body.setVelocityY(-100);
-    }
-    else if (this.cursors.down.isDown) {
-        this.player.body.setVelocityY(100);
-    } else {
-        this.player.body.setVelocityY(0); // Dừng khi không nhấn lên/xuống
-    }
+    // if (this.cursors.up.isDown) {
+    //     this.player.body.setVelocityY(-100);
+    // }
+    // else if (this.cursors.down.isDown) {
+    //     this.player.body.setVelocityY(100);
+    // } else {
+    //     this.player.body.setVelocityY(0); // Dừng khi không nhấn lên/xuống
+    // }
 
     this.enemies.getChildren().forEach(enemy => {
         // Cập nhật vị trí văn bản sức khỏe
