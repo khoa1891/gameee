@@ -1,0 +1,1 @@
+let mapI = 0; charI = 0 

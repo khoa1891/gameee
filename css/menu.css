@@ -1,0 +1,74 @@
+/* Nút Menu */
+.ui-button {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Túi Đồ */
+.ui-box {
+    position: absolute;
+    left: 10px;
+    bottom: 60px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 5px;
+    display: none;
+}
+
+
+.count2Btn {
+    background-color: brown;
+    padding: 5px;
+    border-radius: 5px
+}
+
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#confirmationBox {
+    position: absolute;
+    top: 150px;
+    left: 50px;
+    height: 150px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+/* Định nghĩa một lớp CSS cho màu đỏ và animation */
+.red-alert {
+    color: red;
+    animation: blink 1s ease-in-out;
+}
+
+/* Định nghĩa animation để nhấp nháy */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}

@@ -1,0 +1,111 @@
+#board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 290px;
+    height: 290px;
+    background-color: rgb(173,216,230);
+    border: 7px solid black;
+    border-radius: 11px;
+    overflow: hidden;
+}
+#board img {
+    /* width: calc(100% / 8); 
+    height: calc(100% / 8);  */
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+
+    transition: box-shadow 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+
+
+}
+
+.blink {
+    animation: blink 0.5s infinite;
+    /* Chớp nháy liên tục */
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        /* Ảnh hiện rõ */
+    }
+
+    50% {
+        opacity: 0;
+        /* Ảnh biến mất */
+    }
+
+    100% {
+        opacity: 1;
+        /* Ảnh hiện lại */
+    }
+}
+
+fade-out2 {
+    opacity: 0;
+    /* Mờ dần */
+}
+
+fade-in2 {
+    opacity: 1;
+    /* Hiện images mới */
+}
+
+/* Hiệu ứng focus */
+.focus {
+    border-radius: 3px;
+    position: absolute;
+    animation: pulsate 1.5s infinite;
+    box-shadow: 0 0 0 5px rgba(20, 132, 47, 1);
+    /* Shadow màu xanh */
+    z-index: 2;
+}
+
+@keyframes pulsate {
+    0% {
+        box-shadow: 0 0 0 5px rgba(20, 132, 47, 1);
+        /* Tăng độ mờ lên 0.7 */
+    }
+
+    50% {
+        box-shadow: 0 0 0 7px rgba(20, 132, 47, 1);
+        /* Tăng độ mờ lên 0.5 */
+    }
+
+    100% {
+        box-shadow: 0 0 0 4px rgba(20, 132, 47, 1);
+        /* Tăng độ mờ lên 0.7 */
+    }
+}
+
+/* Hiệu ứng outFocus */
+.outFocus {
+    position: absolute;
+    border-radius: 3px;
+    animation: outPulsate 1.2s forwards;
+    /* Animation cho outFocus */
+    box-shadow: 0 0 0 5px rgba(235, 8, 8, 1);
+    /* Shadow màu đỏ */
+    z-index: 2;
+}
+
+@keyframes outPulsate {
+    0% {
+        box-shadow: 0 0 0 5px rgba(235, 8, 8, 1);
+        /* Shadow ban đầu */
+    }
+
+    50% {
+        box-shadow: 0 0 0 7px rgba(235, 8, 8, 0.6);
+        /* Mờ dần */
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px rgba(235, 8, 8, 0.3);
+        /* Không còn shadow */
+    }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        let player;
+        let monsters = [];
+        let chairs = [];
+        let cursors;
+
+        function preload() {
+            // Tải hình ảnh cho nhân vật, quái vật và ghế
+            this.load.image('player', 'https://labs.phaser.io/assets/sprites/phaser-dude.png');
+            this.load.image('monster', 'https://labs.phaser.io/assets/sprites/monkey.png');
+            this.load.image('chair', 'https://labs.phaser.io/assets/sprites/chair.png');
+        }
+
+        function create() {
+            // Tạo nhân vật
+            player = this.physics.add.sprite(400, 300, 'player');
+            player.setCollideWorldBounds(true);
+
+            // Tạo quái vật
+            for (let i = 0; i < 3; i++) {
+                const monster = this.physics.add.sprite(100 + i * 200, Math.random() * 600, 'monster');
+                monster.setVelocity(Phaser.Math.Between(-100, 100), Phaser.Math.Between(-100, 100));
+                monster.setBounce(1);
+                monster.setCollideWorldBounds(true);
+                monsters.push(monster);
+            }
+
+            // Tạo ghế
+            for (let i = 0; i < 3; i++) {
+                const chair = this.physics.add.sprite(200 + i * 200, 400, 'chair');
+                chair.setCollideWorldBounds(true);
+                chair.setBounce(0.2); // Thêm độ nảy cho bàn
+                chair.setDrag(400)
+                // chair.setImmovable(true);
+                chairs.push(chair);
+            }
+
+            // Thiết lập điều khiển
+            cursors = this.input.keyboard.createCursorKeys();
+
+            // Thiết lập va chạm giữa quái vật và ghế
+            monsters.forEach(monster => {
+                chairs.forEach(chair => {
+                    this.physics.add.collider(monster, chair, stopMonster);
+                });
+            });
+
+            // Thiết lập va chạm giữa nhân vật và ghế
+            chairs.forEach(chair => {
+                this.physics.add.collider(player, chair, stopPlayer);
+            });
+
+
+            // Thiết lập va chạm giữa các ghế
+            for (let i = 0; i < chairs.length; i++) {
+                for (let j = i + 1; j < chairs.length; j++) {
+                    this.physics.add.collider(chairs[i], chairs[j]);
+                }
+            }
+        }
+
+        function update() {
+            // Xử lý điều khiển nhân vật
+            if (cursors.left.isDown) {
+                player.setVelocityX(-160);
+                // Thiết lập va chạm giữa nhân vật và ghế
+                // chairs.forEach(chair => {
+                //     this.physics.add.collider(player, chair, ()=> {
+                //         if (player.x < chair.body.right) { player.x = chair.body.right - 2}
+                //         stopPlayer()
+                //     });
+                // });
+            } else if (cursors.right.isDown) {
+                player.setVelocityX(160);
+            } else {
+                player.setVelocityX(0);
+            }
+
+            if (cursors.up.isDown) {
+                player.setVelocityY(-160);
+            } else if (cursors.down.isDown) {
+                player.setVelocityY(160);
+            } else {
+                player.setVelocityY(0);
+            }
+        }
+
+        function stopMonster(monster, chair) {
+            // Tính toán vector hướng từ ghế đến quái vật
+            const direction = monster.body.position.clone().subtract(chair.body.position);
+            direction.normalize(); // Chuẩn hóa vector
+
+            // Đặt vận tốc ngược lại cho quái vật
+            monster.setVelocity(direction.x * 100, direction.y * 100); // Tăng tốc độ nếu cần thiết
+        }
+
+        function stopPlayer() {
+            // Dừng nhân vật khi chạm ghế
+            player.setVelocity(0);
+        }
+
+       
+
+    </script>
+</body>
+
+</html>

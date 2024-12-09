@@ -1,0 +1,36 @@
+{"frames": {
+
+"1":
+{
+	"frame": {"x":0,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"2":
+{
+	"frame": {"x":100,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"3":
+{
+	"frame": {"x":200,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "clothesMale.png",
+	"format": "RGBA8888",
+	"size": {"w":300,"h":100},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:af2fe0cff6285ebf628656864a92ccae:9592dfa5497ef8012772a67bdc5ab580:03e9a4c5e3088ec53b639d200cdb276b$"
+}
+}

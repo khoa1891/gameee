@@ -1,0 +1,19 @@
+class MapD extends Phaser.Scene {
+    constructor() {
+        super('MapD');
+        this.imageKey = 'b';
+        this.imageLink = 'link/to/image_d.png';
+    }
+
+    preload() {
+        // Tải hình ảnh của Map D
+        this.load.image(this.imageKey, this.imageLink);
+    }
+}
+// Truy cập Cảnh D và lấy key, link từ đó
+const mapDScene = this.scene.get('MapD');
+const key = mapDScene.imageKey;
+const link = mapDScene.imageLink;
+
+console.log("Key:", key);  // 'b'
+console.log("Link:", link); // 'link/to/image_d.png'
