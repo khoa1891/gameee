@@ -42,7 +42,6 @@
 
       padding: 12px;
   font-size: 16px;
-  width: 100%;
   border-radius: 10px;
     }
   
@@ -270,9 +269,8 @@
 
 
 .letter {
-  background: white;
   background: #282828;
-  color: black;
+  color: white;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   padding: 12px;
@@ -744,10 +742,10 @@ speedInput.addEventListener("input", () => {
 
       { base: "eat", past: "ate", pastParticiple: "eaten", type: "động từ", viet: "ăn", pronounce: "/iːt/" },
       { base: "see", past: "saw", pastParticiple: "seen", type: "động từ", viet: "nhìn", pronounce: "/siː/" },
-      { base: "come", past: "came", pastParticiple: "come", type: "động từ", viet: "đến", pronounce: "/kʌm/" },
-      { base: "speak", past: "spoke", pastParticiple: "spoken", type: "động từ", viet: "nói", pronounce: "/spiːk/" },
-      { base: "write", past: "wrote", pastParticiple: "written", type: "động từ", viet: "viết", pronounce: "/raɪt/" },
-      { base: "give", past: "gave", pastParticiple: "given", type: "động từ", viet: "cho", pronounce: "/ɡɪv/" }
+      // { base: "come", past: "came", pastParticiple: "come", type: "động từ", viet: "đến", pronounce: "/kʌm/" },
+      // { base: "speak", past: "spoke", pastParticiple: "spoken", type: "động từ", viet: "nói", pronounce: "/spiːk/" },
+      // { base: "write", past: "wrote", pastParticiple: "written", type: "động từ", viet: "viết", pronounce: "/raɪt/" },
+      // { base: "give", past: "gave", pastParticiple: "given", type: "động từ", viet: "cho", pronounce: "/ɡɪv/" }
     ];
     const words = [
       { text: "run", mean: "chạy", type: "động từ", phonetic: "/rʌn/", symbol: "v." },
@@ -1001,14 +999,153 @@ function buildAlphabetGrid() {
 //   });
 // }
    
+// function renderCards() {
+//   container.innerHTML = "";
+
+//   // 1) Kết hợp words + dsDongTuBQT, gắn key + flag bqt
+//  // mới: BQT lên trước, study sau
+// const merged = [
+//   ...dsDongTuBQT.map(tu => ({
+//     key: tu.base,
+//     text: tu.base,
+//     mean: tu.viet,
+//     symbol: "",
+//     phonetic: tu.pronounce,
+//     type: "động từ",
+//     bqt: true
+//   })),
+//   ...words.map(w => ({
+//     key: w.text,
+//     text: w.text,
+//     mean: w.mean,
+//     symbol: w.symbol,
+//     phonetic: w.phonetic,
+//     type: w.type,
+//     bqt: false
+//   }))
+// ];
+//   // 2) Lọc listAll tuỳ tab, và lọc marked-only nếu tab marked
+//   let listAll;
+//   if (currentTab === "study") {
+//     listAll = words; 
+//   } else {
+//     // Chỉ các từ đã đánh dấu, và loại trùng theo key
+//     listAll = merged
+//       .filter(w => marked.has(w.key))
+//       .filter((w, i, a) => a.findIndex(x => x.key === w.key) === i);
+//   }
+
+//   // 3) Cập nhật dòng info
+//   if (currentTab === "study") {
+//     markedInfo.textContent = `Đã đánh dấu: ${marked.size}/${words.length}`;
+//   } else {
+//     markedInfo.textContent = `Tổng đã đánh dấu: ${marked.size}`;
+//   }
+
+//   // 4) Trường hợp chưa có dữ liệu
+//   if (listAll.length === 0) {
+//     container.innerHTML = '<div class="no-data">Chưa có từ nào được đánh dấu</div>';
+//     pagination.innerHTML = "";
+//     return;
+//   }
+
+//   // 5) Pagination
+//   renderPagination(listAll.length);
+//   const list = listAll.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+//   // 6) Render từng card
+//   list.forEach((word, index) => {
+//     const wrapper = document.createElement("div");
+//     wrapper.className = "card-wrapper " + word.type.replace(/\s/g, "-");
+
+//     const card = document.createElement("div");
+//     card.className = "card";
+//     if (marked.has(word.key)) card.classList.add("marked");
+
+//     // Mặt trước
+//     const front = document.createElement("div");
+//     front.className = "card-front";
+//     front.innerHTML = `
+//       ${word.bqt
+//         ? `<span class="bqt-span">${index + 1}. ${word.mean} (${word.type} Bất Quy Tắc)</span>`
+//         : `<span>${index + 1}. ${word.mean} (${word.type})</span>`
+//       }
+//       <input type="checkbox" class="checkbox" ${marked.has(word.key) ? "checked" : ""}>
+//     `;
+
+//     // Mặt sau
+//     const back = document.createElement("div");
+//     back.className = "card-back";
+//     back.innerHTML = `
+//       <div><strong>${word.key}</strong> ${word.symbol}</div>
+//       <div>${word.phonetic}</div>
+//       <div>${word.mean}</div>
+//     `;
+
+//     card.appendChild(front);
+//     card.appendChild(back);
+//     wrapper.appendChild(card);
+//     container.appendChild(wrapper);
+
+//     // Checkbox xử lý đánh dấu / bỏ đánh dấu
+//     const checkbox = front.querySelector("input");
+//     checkbox.addEventListener("change", e => {
+//   e.stopPropagation();
+//   if (checkbox.checked) {
+//     marked.add(word.text);
+//     card.classList.add("marked");
+//   } else {
+//     marked.delete(word.text);
+//     card.classList.remove("marked");
+//   }
+//   saveMarked();
+//   // Cập nhật số ở header
+//   if (currentTab === "study") {
+//     markedInfo.textContent = `Đã đánh dấu: ${marked.size}/${words.length}`;
+//   } else {
+//     markedInfo.textContent = `Tổng đã đánh dấu: ${marked.size}`;
+//   }
+// });
+
+//     // Lật thẻ
+//     card.addEventListener("click", e => {
+//       if (e.target.tagName === "INPUT") return;
+//       card.classList.add("flipped");
+//       setTimeout(() => card.classList.remove("flipped"), 1500);
+//     });
+//   });
+// }
+
+
 function renderCards() {
   container.innerHTML = "";
 
-  // 1) Kết hợp words + dsDongTuBQT, gắn key + flag bqt
- // mới: BQT lên trước, study sau
-const merged = [
+  // 1) Gộp từ BQT + từ thường, gắn key riêng biệt
+  // const merged = [
+  //   ...dsDongTuBQT.map(tu => ({
+  //     key: `bqt:${tu.base}`,
+  //     text: tu.base,
+  //     mean: tu.viet,
+  //     symbol: "",
+  //     phonetic: tu.pronounce,
+  //     type: "động từ",
+  //     bqt: true
+  //   })),
+  //   ...words.map(w => ({
+  //     key: `std:${w.text}`,
+  //     text: w.text,
+  //     mean: w.mean,
+  //     symbol: w.symbol,
+  //     phonetic: w.phonetic,
+  //     type: w.type,
+  //     bqt: false
+  //   }))
+  // ];
+
+
+  const merged = [
   ...dsDongTuBQT.map(tu => ({
-    key: tu.base,
+    key: `bqt:${tu.base}`, // ✅ prefix cho BQT
     text: tu.base,
     mean: tu.viet,
     symbol: "",
@@ -1017,7 +1154,7 @@ const merged = [
     bqt: true
   })),
   ...words.map(w => ({
-    key: w.text,
+    key: `std:${w.text}`, // ✅ prefix cho từ thường
     text: w.text,
     mean: w.mean,
     symbol: w.symbol,
@@ -1026,36 +1163,43 @@ const merged = [
     bqt: false
   }))
 ];
-  // 2) Lọc listAll tuỳ tab, và lọc marked-only nếu tab marked
+
+  // 2) Lọc danh sách theo tab
   let listAll;
   if (currentTab === "study") {
-    listAll = words; 
+    listAll = merged.filter(w => !w.bqt); // chỉ từ thường
   } else {
-    // Chỉ các từ đã đánh dấu, và loại trùng theo key
-    listAll = merged
-      .filter(w => marked.has(w.key))
-      .filter((w, i, a) => a.findIndex(x => x.key === w.key) === i);
+    // listAll = merged
+    //   .filter(w => marked.has(w.key)) // chỉ từ đã đánh dấu
+    //   .filter((w, i, a) => a.findIndex(x => x.key === w.key) === i); // loại trùng
+
+    listAll = [...marked]
+  .reverse() // ✅ đảo thứ tự tick
+  .map(key => merged.find(w => w.key === key))
+  .filter(Boolean); // loại null nếu có
+
   }
 
-  // 3) Cập nhật dòng info
+  // 3) Cập nhật số lượng đánh dấu
   if (currentTab === "study") {
-    markedInfo.textContent = `Đã đánh dấu: ${marked.size}/${words.length}`;
+    const markedStd = [...marked].filter(k => k.startsWith("std:")).length;
+    markedInfo.textContent = `Đã đánh dấu: ${markedStd}/${words.length}`;
   } else {
     markedInfo.textContent = `Tổng đã đánh dấu: ${marked.size}`;
   }
 
-  // 4) Trường hợp chưa có dữ liệu
+  // 4) Nếu không có dữ liệu
   if (listAll.length === 0) {
     container.innerHTML = '<div class="no-data">Chưa có từ nào được đánh dấu</div>';
     pagination.innerHTML = "";
     return;
   }
 
-  // 5) Pagination
+  // 5) Phân trang
   renderPagination(listAll.length);
   const list = listAll.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  // 6) Render từng card
+  // 6) Hiển thị từng card
   list.forEach((word, index) => {
     const wrapper = document.createElement("div");
     wrapper.className = "card-wrapper " + word.type.replace(/\s/g, "-");
@@ -1073,13 +1217,14 @@ const merged = [
         : `<span>${index + 1}. ${word.mean} (${word.type})</span>`
       }
       <input type="checkbox" class="checkbox" ${marked.has(word.key) ? "checked" : ""}>
+      
     `;
 
     // Mặt sau
     const back = document.createElement("div");
     back.className = "card-back";
     back.innerHTML = `
-      <div><strong>${word.key}</strong> ${word.symbol}</div>
+      <div><strong>${word.text}</strong> ${word.symbol}</div>
       <div>${word.phonetic}</div>
       <div>${word.mean}</div>
     `;
@@ -1089,27 +1234,42 @@ const merged = [
     wrapper.appendChild(card);
     container.appendChild(wrapper);
 
-    // Checkbox xử lý đánh dấu / bỏ đánh dấu
+    // Xử lý checkbox
     const checkbox = front.querySelector("input");
+    // checkbox.addEventListener("change", e => {
+    //   e.stopPropagation();
+    //   if (checkbox.checked) {
+    //     marked.add(word.key);
+    //     card.classList.add("marked");
+    //   } else {
+    //     marked.delete(word.key);
+    //     card.classList.remove("marked");
+    //   }
+    //   saveMarked();
+
+    //   // Cập nhật hiển thị số từ đánh dấu
+    //   if (currentTab === "study") {
+    //     const markedStd = [...marked].filter(k => k.startsWith("std:")).length;
+    //     markedInfo.textContent = `Đã đánh dấu: ${markedStd}/${words.length}`;
+    //   } else {
+    //     markedInfo.textContent = `Tổng đã đánh dấu: ${marked.size}`;
+    //   }
+    // });
+
+
     checkbox.addEventListener("change", e => {
   e.stopPropagation();
   if (checkbox.checked) {
-    marked.add(word.text);
+    marked.add(word.key); // ✅ dùng key có prefix
     card.classList.add("marked");
   } else {
-    marked.delete(word.text);
+    marked.delete(word.key);
     card.classList.remove("marked");
   }
   saveMarked();
-  // Cập nhật số ở header
-  if (currentTab === "study") {
-    markedInfo.textContent = `Đã đánh dấu: ${marked.size}/${words.length}`;
-  } else {
-    markedInfo.textContent = `Tổng đã đánh dấu: ${marked.size}`;
-  }
 });
 
-    // Lật thẻ
+    // Lật thẻ khi click
     card.addEventListener("click", e => {
       if (e.target.tagName === "INPUT") return;
       card.classList.add("flipped");
@@ -1143,7 +1303,15 @@ function xoaBoNho() {
   <!-- bất qui tắc -->
   <script>
     
-    let daHocBQT = [];
+    // let daHocBQT = [];
+    // let daHocBQT = JSON.parse(localStorage.getItem("daHocBQT") || "[]"); // ✅
+    let daHocBQT = JSON.parse(localStorage.getItem("daHocBQT") || "[]").map(tu => ({
+  ...tu,
+  type: "động từ", // đảm bảo có type
+  key: `bqt:${tu.base}` // thêm lại key đúng
+}));
+
+
     let lichSuChat = JSON.parse(localStorage.getItem("lichSuChat") || "[]");
    /* function capNhatBQT() {
       const ds = document.getElementById("dsBQT");
@@ -1199,6 +1367,78 @@ function capNhatBQT() {
     });
   });
 }*/
+
+// function capNhatBQT() {
+//   const ds = document.getElementById("dsBQT");
+//   const daHocSo = daHocBQT.length;
+//   document.getElementById("soTuBQT").innerText = `Đã học: ${daHocSo}/${dsDongTuBQT.length}`;
+//   document.getElementById("nutOanTuTi").disabled = (daHocSo === dsDongTuBQT.length);
+//   ds.innerHTML = "";
+
+//   daHocBQT.forEach((tu, i) => {
+//     const wrapper = document.createElement("div");
+//     wrapper.className = "card-wrapper " + tu.type.replace(/\s/g, "-");
+
+//     const card = document.createElement("div");
+//     card.className = "card";
+
+//     // const tuKey = `bqt:${tu.base}`;
+
+// marked.delete(tu.key);
+// // marked.delete(tuKey);
+// saveMarked();
+
+//     const checked = marked.has(tu.key);
+//     // const checked = marked.has(tuKey);
+
+//     const front = document.createElement("div");
+//     front.className = "card-front";
+//     front.innerHTML = `
+//       <span style="color: orange; font-weight: bold; font-size: 14px; margin-bottom: 4px">
+//         ${i + 1}. ${tu.viet} (${tu.type} Bất Quy Tắc)
+//       </span>
+//       <input type="checkbox" class="checkbox" ${checked ? "checked" : ""}>
+//     `;
+
+//     if (checked) card.classList.add("marked");
+
+//     const back = document.createElement("div");
+//     back.className = "card-back";
+//     back.innerHTML = `
+//       <div><strong>${tu.base} - ${tu.past} - ${tu.pastParticiple}</strong></div>
+//       <div>${tu.pronounce}</div>
+//     `;
+
+//     card.appendChild(front);
+//     card.appendChild(back);
+//     wrapper.appendChild(card);
+//     ds.appendChild(wrapper);
+
+//     // ✅ Lúc này mới lấy được checkbox sau khi tạo front
+//     const checkbox = front.querySelector("input");
+
+//     // ✅ Xử lý đánh dấu
+//     checkbox.addEventListener("change", () => {
+//       if (checkbox.checked) {
+//         marked.add(tu.key);
+//         // marked.add(tuKey);
+//         card.classList.add("marked");
+//       } else {
+//         marked.delete(tu.key);
+//         card.classList.remove("marked");
+//       }
+//       saveMarked();
+//     });
+
+//     card.addEventListener("click", (e) => {
+//       if (e.target.tagName === "INPUT") return;
+//       card.classList.add("flipped");
+//       setTimeout(() => card.classList.remove("flipped"), 1500);
+//     });
+//   });
+// }
+
+
 function capNhatBQT() {
   const ds = document.getElementById("dsBQT");
   const daHocSo = daHocBQT.length;
@@ -1207,61 +1447,59 @@ function capNhatBQT() {
   ds.innerHTML = "";
 
   daHocBQT.forEach((tu, i) => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "card-wrapper " + tu.type.replace(/\s/g, "-");
+    const wrapper = document.createElement("div");
+    wrapper.className = "card-wrapper " + tu.type.replace(/\s/g, "-");
 
-  const card = document.createElement("div");
-  card.className = "card";
+    const card = document.createElement("div");
+    card.className = "card";
 
-  const checked = marked.has(tu.base);
+    const checked = marked.has(tu.key); // ✅ dùng đúng key đã có
 
-  const front = document.createElement("div");
-  front.className = "card-front";
-  front.innerHTML = `
-    <span style=" color: orange;
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 4px">${i + 1}. ${tu.viet} (${tu.type} Bất Quy Tắc)</span>
-    <input type="checkbox" class="checkbox" ${checked ? "checked" : ""}>
-  `;
+    const front = document.createElement("div");
+    front.className = "card-front";
+    front.innerHTML = `
+      <span style="color: orange; font-weight: bold; font-size: 14px; margin-bottom: 4px">
+        ${i + 1}. ${tu.viet} (${tu.type} Bất Quy Tắc)
+      </span>
+      <input type="checkbox" class="checkbox" ${checked ? "checked" : ""}>
+    `;
 
-  if (checked) card.classList.add("marked");
+    if (checked) card.classList.add("marked");
 
-  const back = document.createElement("div");
-  back.className = "card-back";
-  back.innerHTML = `
-    <div><strong>${tu.base} - ${tu.past} - ${tu.pastParticiple}</strong></div>
-    <div>${tu.pronounce}</div>
-  `;
+    const back = document.createElement("div");
+    back.className = "card-back";
+    back.innerHTML = `
+      <div><strong>${tu.base} - ${tu.past} - ${tu.pastParticiple}</strong></div>
+      <div>${tu.pronounce}</div>
+    `;
 
-  card.appendChild(front);
-  card.appendChild(back);
-  wrapper.appendChild(card);
-  ds.appendChild(wrapper);
+    card.appendChild(front);
+    card.appendChild(back);
+    wrapper.appendChild(card);
+    ds.appendChild(wrapper);
 
-  // ✅ Đây là đoạn fix lỗi
-  const checkbox = front.querySelector("input");
-  const tuBase = tu.base;
+    const checkbox = front.querySelector("input");
 
-  checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-      card.classList.add("marked");
-      marked.add(tuBase);
-    } else {
-      card.classList.remove("marked");
-      marked.delete(tuBase);
-    }
-    saveMarked();
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
+        marked.add(tu.key); // ✅ thêm đúng key
+        card.classList.add("marked");
+      } else {
+        marked.delete(tu.key); // ✅ xóa đúng key
+        card.classList.remove("marked");
+      }
+      saveMarked();
+    });
+
+    card.addEventListener("click", (e) => {
+      if (e.target.tagName === "INPUT") return;
+      card.classList.add("flipped");
+      setTimeout(() => card.classList.remove("flipped"), 1500);
+    });
   });
-
-  card.addEventListener("click", (e) => {
-    if (e.target.tagName === "INPUT") return;
-    card.classList.add("flipped");
-    setTimeout(() => card.classList.remove("flipped"), 1500);
-  });
-});
 }
-    function batDauHoc() {
+
+function batDauHoc() {
       const tuDauTien = dsDongTuBQT[0];
       daHocBQT = [tuDauTien];
       //document.getElementById("nutBatDauHoc").style.display = "none";
@@ -1319,6 +1557,7 @@ function capNhatBQT() {
         if (chuaHoc.length > 0) {
           const moi = chuaHoc[Math.floor(Math.random() * chuaHoc.length)];
           daHocBQT.push(moi);
+          localStorage.setItem("daHocBQT", JSON.stringify(daHocBQT));
           capNhatBQT();
           return `<span class='ketqua thang'>=> Bạn Thắng! Học được từ mới: ${moi.viet}</span>`;
         } else {
